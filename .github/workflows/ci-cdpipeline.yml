@@ -20,15 +20,15 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    # 🔥 Step 1: Build WITHOUT tests
+    # Step 1: Build WITHOUT tests
     - name: Build (Skip Tests)
       run: mvn clean package -DskipTests
 
-    # 🔥 Step 2: Run tests with FULL logs
+    # Step 2: Run tests with FULL logs
     - name: Run Tests (Verbose)
       run: mvn test -e -X
 
-    # 🔥 Step 3: Print test report (VERY IMPORTANT)
+    # Step 3: Print test report (VERY IMPORTANT)
     - name: Print Test Reports
       if: always()
       run: |
