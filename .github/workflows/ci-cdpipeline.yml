@@ -20,14 +20,23 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Build with Maven
-      run: mvn clean package
+    # 🔥 Step 1: Build WITHOUT tests
+    - name: Build (Skip Tests)
+      run: mvn clean package -DskipTests
 
-    - name: Run Tests
-      run: mvn test
+    # 🔥 Step 2: Run tests with FULL logs
+    - name: Run Tests (Verbose)
+      run: mvn test -e -X
+
+    # 🔥 Step 3: Print test report (VERY IMPORTANT)
+    - name: Print Test Reports
+      if: always()
+      run: |
+        echo "==== TEST REPORTS ===="
+        cat target/surefire-reports/*.txt || true
 
     - name: Build Docker Image
       run: docker build -t restapi-app .
-    
+
     - name: Run Docker Container
       run: docker run -d -p 8800:8800 restapi-app
